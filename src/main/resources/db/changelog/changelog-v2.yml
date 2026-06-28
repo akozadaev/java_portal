@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-add-applications-processed-at
+      author: akozadaev
+      changes:
+        - addColumn:
+            tableName: applications
+            columns:
+              - column:
+                  name: processed_at
+                  type: timestamp with time zone
+      rollback:
+        - dropColumn:
+            tableName: applications
+            columnName: processed_at

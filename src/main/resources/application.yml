@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: portal
+  datasource:
+    url: jdbc:postgresql://localhost:5432/portal
+    username: portal
+    password: portal
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yml
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: portal-applications
+      auto-offset-reset: earliest
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/portal
+    username: portal
+    password: portal
+  kafka:
+    bootstrap-servers: localhost:9092
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yml
+  kafka:
+    consumer:
+      group-id: portal-applications-test

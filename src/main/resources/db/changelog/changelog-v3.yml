@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-normalize-application-phones
+      author: akozadaev
+      changes:
+        - sql:
+            splitStatements: true
+            stripComments: true
+            sql: |
+              UPDATE applications
+              SET phone = regexp_replace(phone, '[ -]+', '', 'g')
+              WHERE phone ~ '[ -]';
+
+              UPDATE applications
+              SET phone = '+7' || substring(phone from 2)
+              WHERE phone ~ '^8[0-9]{10}$';
+      rollback:
+        - sql:
+            sql: |
+              -- Rollback is intentionally a no-op: after removing spaces,
+              -- hyphens and replacing 8 with +7, the original formatting
+              -- cannot be restored reliably.
