@@ -164,6 +164,43 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- 1. Checkstyle (Проверка стиля кода) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>3.3.1</version>
+				<configuration>
+					<!-- Используем стандартный google style.
+                         Можно указать свой файл: <configLocation>checkstyle.xml</configLocation> -->
+					<configLocation>google_checks.xml</configLocation>
+					<consoleOutput>true</consoleOutput>
+					<failsOnError>true</failsOnError>
+					<violationSeverity>warning</violationSeverity>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- 2. SpotBugs (Поиск багов) -->
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>4.8.3.1</version>
+				<configuration>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+					<failOnError>true</failOnError>
+					<includeTests>true</includeTests>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
