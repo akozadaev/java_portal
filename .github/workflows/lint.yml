@@ -1,0 +1,30 @@
+name: Java Linter CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  lint:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Выкачиваем код
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Настраиваем Java 17 и кэшируем Maven зависимости
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven' # GitHub: сам кэширует .m2
+
+      # 3. Запускаем линтеры
+      # -B (batch mode) делает логи чище
+      - name: Run Checkstyle and SpotBugs
+        run: mvn -B validate spotbugs:check
