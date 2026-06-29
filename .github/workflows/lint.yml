@@ -10,7 +10,6 @@ jobs:
   lint:
     name: Code Quality Check
     runs-on: ubuntu-latest
-
     steps:
       # 1. Выкачиваем код
       - name: Checkout code
@@ -28,3 +27,29 @@ jobs:
       # -B (batch mode) делает логи чище
       - name: Run Checkstyle and SpotBugs
         run: mvn -B validate spotbugs:check
+
+  reviewdog-checkstyle:
+    name: Checkstyle Reviewdog
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      # Генерируем XML отчет, но не падаем (чтобы reviewdog мог его прочитать)
+      - name: Generate Checkstyle Report
+        run: mvn checkstyle:checkstyle -Dcheckstyle.failsOnError=false
+
+      # Отправляем отчет в PR
+      - name: Post Checkstyle comments to PR
+        uses: reviewdog/action-checkstyle@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          checkstyle_config: google_checks.xml # Или путь к вашему файлу
+          level: warning
