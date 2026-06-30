@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-add-applications-text
+      author: akozadaev
+      changes:
+        - addColumn:
+            tableName: applications
+            columns:
+              - column:
+                  name: application_text
+                  type: text
+        - update:
+            tableName: applications
+            columns:
+              - column:
+                  name: application_text
+                  value: Текст не указан
+            where: application_text IS NULL
+        - addNotNullConstraint:
+            tableName: applications
+            columnName: application_text
+            columnDataType: text
+      rollback:
+        - dropColumn:
+            tableName: applications
+            columnName: application_text
