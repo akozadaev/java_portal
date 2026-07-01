@@ -13,11 +13,17 @@ spring:
     change-log: classpath:/db/changelog/db.changelog-master.yml
   kafka:
     bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       group-id: portal-applications
       auto-offset-reset: earliest
 
 portal:
+  kafka:
+    topics:
+      application-processing: portal.application.processing
   application-processing:
     enabled: true
     fixed-delay-ms: 10000
@@ -34,8 +40,14 @@ spring:
     password: portal
   kafka:
     bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 portal:
+  kafka:
+    topics:
+      application-processing: portal.application.processing
   application-processing:
     enabled: true
     fixed-delay-ms: 10000
@@ -52,9 +64,15 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yml
   kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       group-id: portal-applications-test
 
 portal:
+  kafka:
+    topics:
+      application-processing: portal.application.processing.test
   application-processing:
     enabled: false
