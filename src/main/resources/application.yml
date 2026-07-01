@@ -19,9 +19,16 @@ spring:
     consumer:
       group-id: portal-applications
       auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: ru.akozadaev.portal.application.kafka
+        spring.json.value.default.type: ru.akozadaev.portal.application.kafka.ApplicationProcessingEvent
 
 portal:
   kafka:
+    consumer:
+      enabled: true
     topics:
       application-processing: portal.application.processing
   application-processing:
@@ -72,6 +79,8 @@ spring:
 
 portal:
   kafka:
+    consumer:
+      enabled: false
     topics:
       application-processing: portal.application.processing.test
   application-processing:

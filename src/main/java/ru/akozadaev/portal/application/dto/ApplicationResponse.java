@@ -12,7 +12,8 @@ public record ApplicationResponse(
 		String text,
 		ApplicationStatus status,
 		Instant createdAt,
-		Instant updatedAt) {
+		Instant updatedAt,
+		Instant processedAt) {
 
 	public static ApplicationResponse from(ApplicationEntity entity) {
 		return new ApplicationResponse(
@@ -22,6 +23,7 @@ public record ApplicationResponse(
 				entity.getText(),
 				entity.getStatus(),
 				entity.getCreatedAt(),
-				entity.getUpdatedAt());
+				entity.getUpdatedAt(),
+				entity.getProcessedAt());
 	}
 }

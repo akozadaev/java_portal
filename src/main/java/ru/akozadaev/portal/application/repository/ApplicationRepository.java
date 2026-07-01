@@ -6,8 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.akozadaev.portal.application.model.ApplicationEntity;
+import ru.akozadaev.portal.application.model.ApplicationStatus;
 
 public interface ApplicationRepository extends JpaRepository<ApplicationEntity, UUID> {
+
+	List<ApplicationEntity> findAllByStatusOrderByCreatedAtAsc(ApplicationStatus status);
 
 	@Query(
 			value = """
