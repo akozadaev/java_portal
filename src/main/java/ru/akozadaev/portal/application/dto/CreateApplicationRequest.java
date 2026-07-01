@@ -2,6 +2,7 @@ package ru.akozadaev.portal.application.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public record CreateApplicationRequest(
 		@NotBlank(message = "ФИО обязательно для заполнения")
@@ -11,5 +12,9 @@ public record CreateApplicationRequest(
 		@Pattern(
 				regexp = "^(?:\\+7|8)[0-9\\s-]{10,20}$",
 				message = "Телефон должен начинаться с +7 или 8 и содержать 11 цифр")
-		String phone) {
+		String phone,
+
+		@NotBlank(message = "Текст заявки обязателен для заполнения")
+		@Size(max = 4000, message = "Текст заявки не должен превышать 4000 символов")
+		String text) {
 }

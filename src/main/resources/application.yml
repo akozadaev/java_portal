@@ -17,6 +17,12 @@ spring:
       group-id: portal-applications
       auto-offset-reset: earliest
 
+portal:
+  application-processing:
+    enabled: true
+    fixed-delay-ms: 10000
+    batch-size: 50
+
 ---
 spring:
   config:
@@ -28,6 +34,12 @@ spring:
     password: portal
   kafka:
     bootstrap-servers: localhost:9092
+
+portal:
+  application-processing:
+    enabled: true
+    fixed-delay-ms: 10000
+    batch-size: 50
 
 ---
 spring:
@@ -42,3 +54,7 @@ spring:
   kafka:
     consumer:
       group-id: portal-applications-test
+
+portal:
+  application-processing:
+    enabled: false

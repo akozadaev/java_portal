@@ -9,6 +9,7 @@ public record ApplicationResponse(
 		UUID id,
 		String fullName,
 		String phone,
+		String text,
 		ApplicationStatus status,
 		Instant createdAt,
 		Instant updatedAt) {
@@ -18,6 +19,7 @@ public record ApplicationResponse(
 				entity.getId(),
 				entity.getFullName(),
 				entity.getPhone(),
+				entity.getText(),
 				entity.getStatus(),
 				entity.getCreatedAt(),
 				entity.getUpdatedAt());

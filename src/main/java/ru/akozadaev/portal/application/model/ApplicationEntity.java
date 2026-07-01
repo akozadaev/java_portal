@@ -27,6 +27,9 @@ public class ApplicationEntity {
 	@Column(name = "phone", nullable = false, length = 32)
 	private String phone;
 
+	@Column(name = "application_text", nullable = false, columnDefinition = "text")
+	private String text;
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false, length = 32)
 	private ApplicationStatus status;
@@ -43,9 +46,10 @@ public class ApplicationEntity {
 	protected ApplicationEntity() {
 	}
 
-	public ApplicationEntity(String fullName, String phone, ApplicationStatus status) {
+	public ApplicationEntity(String fullName, String phone, String text, ApplicationStatus status) {
 		this.fullName = fullName;
 		this.phone = phone;
+		this.text = text;
 		this.status = status;
 	}
 
@@ -79,6 +83,14 @@ public class ApplicationEntity {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	public ApplicationStatus getStatus() {

@@ -27,7 +27,11 @@ public class ApplicationService {
 	@Transactional
 	public ApplicationResponse create(CreateApplicationRequest request) {
 		String phone = normalizePhone(request.phone());
-		ApplicationEntity entity = new ApplicationEntity(request.fullName(), phone, ApplicationStatus.NEW);
+		ApplicationEntity entity = new ApplicationEntity(
+				request.fullName(),
+				phone,
+				request.text(),
+				ApplicationStatus.NEW);
 
 		return ApplicationResponse.from(applicationRepository.saveAndFlush(entity));
 	}
