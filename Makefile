@@ -4,14 +4,16 @@ COMPOSE := docker compose
 
 .DEFAULT_GOAL := help
 
-.PHONY: help clean compile test-compile test package package-fast run run-dev infra-up infra-down infra-logs
+.PHONY: help clean compile test-compile test test-fast test-integration package package-fast run run-dev infra-up infra-down infra-logs
 
 help:
 	@printf "Доступные цели:\n"
 	@printf "  make clean         Удалить артефакты сборки Maven\n"
 	@printf "  make compile       Компилировать исходный код основного приложения\n"
 	@printf "  make test-compile  Компилировать исходный код основного приложения и тестов\n"
-	@printf "  make test          Запустить тесты, включая тесты Testcontainers\n"
+	@printf "  make test          Запустить быстрые тесты без Testcontainers\n"
+	@printf "  make test-fast     Запустить быстрые тесты без Checkstyle и Testcontainers\n"
+	@printf "  make test-integration Запустить Testcontainers-тесты\n"
 	@printf "  make package       Собрать jar-файл приложения\n"
 	@printf "  make package-fast  Собрать jar-файл без тестов и Checkstyle\n"
 	@printf "  make run           Запустить приложение с профилем dev\n"
@@ -31,6 +33,12 @@ test-compile:
 
 test:
 	$(MVNW) test
+
+test-fast:
+	$(MVNW) -Dcheckstyle.skip=true test
+
+test-integration:
+	$(MVNW) -Dcheckstyle.skip=true -DexcludedGroups= -Dgroups=integration test
 
 package:
 	$(MVNW) -DskipTests package
