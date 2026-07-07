@@ -11,6 +11,9 @@ spring:
     open-in-view: false
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yml
+  mail:
+    host: localhost
+    port: 1025
   kafka:
     bootstrap-servers: localhost:9092
     producer:
@@ -50,6 +53,9 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  mail:
+    host: localhost
+    port: 1025
 
 portal:
   kafka:
@@ -76,6 +82,9 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       group-id: portal-applications-test
+  mail:
+    host: localhost
+    port: 1025
 
 portal:
   kafka:

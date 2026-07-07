@@ -38,6 +38,7 @@ class ApplicationServiceTest {
 		CreateApplicationRequest request = new CreateApplicationRequest(
 				"Иван Иванов",
 				"8-999-000-11-22",
+				"ivan@example.com",
 				"Текст обращения");
 		when(applicationRepository.saveAndFlush(any(ApplicationEntity.class)))
 				.thenAnswer(invocation -> invocation.getArgument(0));
@@ -50,9 +51,11 @@ class ApplicationServiceTest {
 
 		assertThat(savedEntity.getFullName()).isEqualTo("Иван Иванов");
 		assertThat(savedEntity.getPhone()).isEqualTo("+79990001122");
+		assertThat(savedEntity.getEmail()).isEqualTo("ivan@example.com");
 		assertThat(savedEntity.getText()).isEqualTo("Текст обращения");
 		assertThat(savedEntity.getStatus()).isEqualTo(ApplicationStatus.NEW);
 		assertThat(response.phone()).isEqualTo("+79990001122");
+		assertThat(response.email()).isEqualTo("ivan@example.com");
 		assertThat(response.status()).isEqualTo(ApplicationStatus.NEW);
 	}
 
@@ -61,6 +64,7 @@ class ApplicationServiceTest {
 		CreateApplicationRequest request = new CreateApplicationRequest(
 				"Иван Иванов",
 				"123",
+				"ivan@example.com",
 				"Текст обращения");
 
 		assertThatThrownBy(() -> applicationService.create(request))
@@ -76,6 +80,7 @@ class ApplicationServiceTest {
 		ApplicationEntity entity = new ApplicationEntity(
 				"Иван Иванов",
 				"+79990001122",
+				"ivan@example.com",
 				"Текст обращения",
 				ApplicationStatus.COMPLETED);
 		when(applicationRepository.findById(id)).thenReturn(Optional.of(entity));
@@ -98,8 +103,18 @@ class ApplicationServiceTest {
 
 	@Test
 	void findAllReturnsAllApplicationsWhenStatusIsNull() {
-		ApplicationEntity first = new ApplicationEntity("Иван Иванов", "+79990001122", "Первое", ApplicationStatus.NEW);
-		ApplicationEntity second = new ApplicationEntity("Петр Петров", "+79990002233", "Второе", ApplicationStatus.COMPLETED);
+		ApplicationEntity first = new ApplicationEntity(
+				"Иван Иванов",
+				"+79990001122",
+				"ivan@example.com",
+				"Первое",
+				ApplicationStatus.NEW);
+		ApplicationEntity second = new ApplicationEntity(
+				"Петр Петров",
+				"+79990002233",
+				"petr@example.com",
+				"Второе",
+				ApplicationStatus.COMPLETED);
 		when(applicationRepository.findAll(Sort.by(Sort.Direction.ASC, "createdAt"))).thenReturn(List.of(first, second));
 
 		List<ApplicationResponse> responses = applicationService.findAll(null);
@@ -113,6 +128,7 @@ class ApplicationServiceTest {
 		ApplicationEntity entity = new ApplicationEntity(
 				"Петр Петров",
 				"+79990002233",
+				"petr@example.com",
 				"Текст",
 				ApplicationStatus.COMPLETED);
 		when(applicationRepository.findAllByStatusOrderByCreatedAtAsc(ApplicationStatus.COMPLETED))

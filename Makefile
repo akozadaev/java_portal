@@ -18,6 +18,7 @@ help:
 	@printf "  make package-fast  Собрать jar-файл без тестов и Checkstyle\n"
 	@printf "  make run           Запустить приложение с профилем dev\n"
 	@printf "  make run-dev       Запустить приложение с профилем dev\n"
+	@printf "  make checkstyle    Проверка checkstyle\n"
 	@printf "  make infra-up      Поднять PostgreSQL, Zookeeper и Kafka\n"
 	@printf "  make infra-down    Остановить локальную инфраструктуру\n"
 	@printf "  make infra-logs    Показать логи локальной инфраструктуры\n"
@@ -48,6 +49,9 @@ package-fast:
 
 run:
 	$(MVNW) spring-boot:run -Dspring-boot.run.profiles=dev
+
+checkstyle:
+	$(MVNW) checkstyle:check
 
 run-dev: run
 

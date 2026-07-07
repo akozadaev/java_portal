@@ -40,6 +40,7 @@ class ApplicationProcessingProducerTest {
 				UUID.randomUUID(),
 				"Иван Иванов",
 				"+79990001122",
+				"ivan@example.com",
 				"Текст обращения",
 				ApplicationStatus.PROCESSING,
 				now,

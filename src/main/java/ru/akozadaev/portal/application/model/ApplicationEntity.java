@@ -27,6 +27,9 @@ public class ApplicationEntity {
 	@Column(name = "phone", nullable = false, length = 32)
 	private String phone;
 
+	@Column(name = "email", nullable = false, length = 255)
+	private String email;
+
 	@Column(name = "application_text", nullable = false, columnDefinition = "text")
 	private String text;
 
@@ -46,9 +49,10 @@ public class ApplicationEntity {
 	protected ApplicationEntity() {
 	}
 
-	public ApplicationEntity(String fullName, String phone, String text, ApplicationStatus status) {
+	public ApplicationEntity(String fullName, String phone, String email, String text, ApplicationStatus status) {
 		this.fullName = fullName;
 		this.phone = phone;
+		this.email = email;
 		this.text = text;
 		this.status = status;
 	}
@@ -83,6 +87,14 @@ public class ApplicationEntity {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getText() {

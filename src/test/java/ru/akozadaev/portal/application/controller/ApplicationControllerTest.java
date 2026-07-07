@@ -51,6 +51,7 @@ class ApplicationControllerTest {
 								{
 								  "fullName": "Иван Иванов",
 								  "phone": "8-999-000-11-22",
+								  "email": "ivan@example.com",
 								  "text": "Текст обращения"
 								}
 								"""))
@@ -58,6 +59,7 @@ class ApplicationControllerTest {
 				.andExpect(header().string("Location", "/api/v1/applications/" + id))
 				.andExpect(jsonPath("$.id").value(id.toString()))
 				.andExpect(jsonPath("$.status").value("NEW"))
+				.andExpect(jsonPath("$.email").value("ivan@example.com"))
 				.andExpect(jsonPath("$.text").value("Текст обращения"));
 	}
 
@@ -69,12 +71,14 @@ class ApplicationControllerTest {
 								{
 								  "fullName": "",
 								  "phone": "123",
+								  "email": "not-email",
 								  "text": ""
 								}
 								"""))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.message").value("Ошибка валидации запроса"))
 				.andExpect(jsonPath("$.details", hasKey("fullName")))
+				.andExpect(jsonPath("$.details", hasKey("email")))
 				.andExpect(jsonPath("$.details", hasKey("phone")))
 				.andExpect(jsonPath("$.details", hasKey("text")));
 	}
@@ -138,6 +142,7 @@ class ApplicationControllerTest {
 				id,
 				"Иван Иванов",
 				"+79990001122",
+				"ivan@example.com",
 				"Текст обращения",
 				status,
 				NOW,

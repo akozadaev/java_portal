@@ -43,11 +43,13 @@ class ApplicationRepositoryTest {
 		applicationRepository.save(new ApplicationEntity(
 				"Иван Иванов",
 				"+79990001122",
+				"ivan@example.com",
 				"Первое",
 				ApplicationStatus.NEW));
 		applicationRepository.save(new ApplicationEntity(
 				"Петр Петров",
 				"+79990002233",
+				"petr@example.com",
 				"Второе",
 				ApplicationStatus.COMPLETED));
 		applicationRepository.flush();
@@ -66,11 +68,13 @@ class ApplicationRepositoryTest {
 		applicationRepository.save(new ApplicationEntity(
 				"Иван Иванов",
 				"+79990001122",
+				"ivan@example.com",
 				"Первое",
 				ApplicationStatus.NEW));
 		applicationRepository.save(new ApplicationEntity(
 				"Петр Петров",
 				"+79990002233",
+				"petr@example.com",
 				"Второе",
 				ApplicationStatus.COMPLETED));
 		applicationRepository.flush();

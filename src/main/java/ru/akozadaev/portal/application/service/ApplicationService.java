@@ -34,6 +34,7 @@ public class ApplicationService {
 		ApplicationEntity entity = new ApplicationEntity(
 				request.fullName(),
 				phone,
+				request.email().trim(),
 				request.text(),
 				ApplicationStatus.NEW);
 

@@ -28,8 +28,18 @@ class ApplicationProcessingServiceTest {
 
 	@Test
 	void processNewApplicationsBatchMovesApplicationsToProcessingAndPublishesEvents() {
-		ApplicationEntity first = new ApplicationEntity("Иван Иванов", "+79990001122", "Первое", ApplicationStatus.NEW);
-		ApplicationEntity second = new ApplicationEntity("Петр Петров", "+79990002233", "Второе", ApplicationStatus.NEW);
+		ApplicationEntity first = new ApplicationEntity(
+				"Иван Иванов",
+				"+79990001122",
+				"ivan@example.com",
+				"Первое",
+				ApplicationStatus.NEW);
+		ApplicationEntity second = new ApplicationEntity(
+				"Петр Петров",
+				"+79990002233",
+				"petr@example.com",
+				"Второе",
+				ApplicationStatus.NEW);
 		when(applicationRepository.findBatchForProcessing(ApplicationStatus.NEW.name(), 50))
 				.thenReturn(List.of(first, second));
 		ApplicationProcessingService service = new ApplicationProcessingService(

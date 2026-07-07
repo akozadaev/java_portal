@@ -7,8 +7,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import ru.akozadaev.portal.application.model.ApplicationEntity;
 import ru.akozadaev.portal.application.model.ApplicationStatus;
+import ru.akozadaev.portal.application.notification.ApplicationNotificationService;
 import ru.akozadaev.portal.application.repository.ApplicationRepository;
 
 @Component
@@ -18,9 +21,13 @@ public class ApplicationProcessingConsumer {
 	private static final Logger log = LoggerFactory.getLogger(ApplicationProcessingConsumer.class);
 
 	private final ApplicationRepository applicationRepository;
+	private final ApplicationNotificationService notificationService;
 
-	public ApplicationProcessingConsumer(ApplicationRepository applicationRepository) {
+	public ApplicationProcessingConsumer(
+			ApplicationRepository applicationRepository,
+			ApplicationNotificationService notificationService) {
 		this.applicationRepository = applicationRepository;
+		this.notificationService = notificationService;
 	}
 
 	/**
@@ -48,7 +55,22 @@ public class ApplicationProcessingConsumer {
 
 		application.setStatus(ApplicationStatus.COMPLETED);
 		application.setProcessedAt(Instant.now());
+		sendCompletedNotificationAfterCommit(application);
 
 		log.info("Completed application from Kafka event: {}", application.getId());
+	}
+
+	private void sendCompletedNotificationAfterCommit(ApplicationEntity application) {
+		if (!TransactionSynchronizationManager.isSynchronizationActive()) {
+			notificationService.sendCompleted(application);
+			return;
+		}
+
+		TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+			@Override
+			public void afterCommit() {
+				notificationService.sendCompleted(application);
+			}
+		});
 	}
 }

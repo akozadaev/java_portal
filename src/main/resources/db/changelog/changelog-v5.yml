@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-add-applications-email
+      author: akozadaev
+      changes:
+        - addColumn:
+            tableName: applications
+            columns:
+              - column:
+                  name: email
+                  type: varchar(255)
+        - update:
+            tableName: applications
+            columns:
+              - column:
+                  name: email
+                  value: unknown@example.com
+            where: email IS NULL
+        - addNotNullConstraint:
+            tableName: applications
+            columnName: email
+            columnDataType: varchar(255)
+      rollback:
+        - dropColumn:
+            tableName: applications
+            columnName: email
