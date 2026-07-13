@@ -116,6 +116,28 @@
                     <excludedGroups>integration</excludedGroups>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>add-legacy-modern-test-sources</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>legacy-module/src/main/java</source>
+                                <source>legacy-module/src/test/java</source>
+                                <source>modern-service/src/main/java</source>
+                                <source>modern-service/src/test/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Ручная проверка стиля: ./mvnw checkstyle:check -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
